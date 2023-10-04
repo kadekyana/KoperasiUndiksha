@@ -15,16 +15,23 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final LoginController _loginController = Get.put(LoginController());
   final _formkey = GlobalKey<FormState>();
+  final RxBool sembunyikan = false.obs;
+
+  void buttonSembunyikan() {
+    sembunyikan.toggle();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.indigo[900],
         title: Text('Koperasi Undiksha'),
         centerTitle: true,
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.08,
         color: Colors.grey,
         child: Center(
             child: Text(
@@ -65,19 +72,22 @@ class _LoginViewState extends State<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10, left: 10),
-                            child: Text(
-                              'Username',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 5, horizontal: 10),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10, left: 10),
+                        //     child: Text(
+                        //       'Username',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: TextFormField(
@@ -88,38 +98,61 @@ class _LoginViewState extends State<LoginView> {
                               }
                             },
                             decoration: InputDecoration(
+                              suffixIcon: Icon(
+                                Icons.person,
+                                color: Colors.black,
+                              ),
+                              label: Text('Masukkan Username'),
                               border: OutlineInputBorder(),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 20),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Password',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 10, left: 20),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10),
+                        //     child: Text(
+                        //       'Password',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            controller: _loginController.password,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Password Tidak Boleh Kososng";
-                              }
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
+                          child: Obx(
+                            () => TextFormField(
+                              controller: _loginController.password,
+                              obscureText: !sembunyikan.value,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Password Tidak Boleh Kosong";
+                                }
+                              },
+                              decoration: InputDecoration(
+                                label: Text('Masukkan Password'),
+                                suffixIcon: IconButton(
+                                    onPressed: buttonSembunyikan,
+                                    icon: sembunyikan.value
+                                        ? Icon(
+                                            Icons.visibility,
+                                            color: Colors.black,
+                                          )
+                                        : Icon(
+                                            Icons.visibility_off,
+                                            color: Colors.black,
+                                          )),
+                                border: OutlineInputBorder(),
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
+                          height: MediaQuery.of(context).size.height * 0.04,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -156,33 +189,37 @@ class _LoginViewState extends State<LoginView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => RegisterView(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Daftar Mbanking',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.018),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => RegisterView(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Daftar Mbanking',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.018),
+                                  ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Lupa Password ?',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.018),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Lupa Password ?',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.018),
+                                  ),
                                 ),
                               ),
                             ],

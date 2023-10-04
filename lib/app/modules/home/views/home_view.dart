@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:pemmob_lanjut/app/model/usermodel.dart';
+import 'package:pemmob_lanjut/app/modules/bottom_nav_bar/views/bottom_nav_bar_view.dart';
 import 'package:pemmob_lanjut/app/modules/login/controllers/login_controller.dart';
 import 'package:pemmob_lanjut/app/modules/login/views/login_view.dart';
+import 'package:pemmob_lanjut/app/modules/scan/views/scan_view.dart';
+import 'package:pemmob_lanjut/app/modules/splashscreen/controllers/splashscreen_controller.dart';
+import 'package:pemmob_lanjut/app/routes/app_pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,57 +18,44 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final loginSp = Get.find<LoginController>();
-  String? nama = '';
-
-  Future<String?> getData() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    nama = preferences.getString('Nama');
-    return nama;
-  }
+  final LoginController loginSp = Get.find<LoginController>();
+  final HomeController homeSp = Get.find<HomeController>();
+  final SplashscreenController Ss = Get.find<SplashscreenController>();
 
   @override
   void initState() {
     super.initState();
-    getData();
+    setState(() {});
+    Ss.cekLogin();
+    print(Ss.data);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(nama);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo[900],
         title: Text('Koperasi Undiksha'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginView(),
-                ),
-              );
+              loginSp.logout();
             },
             icon: Icon(Icons.logout),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          homeSp.ModalQrCode(context);
+        },
         child: Icon(Icons.qr_code),
         backgroundColor: Colors.indigo[900],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        child: BottomNavigationBar(backgroundColor: Colors.grey[200], items: [
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded), label: 'Profile'),
-        ]),
-      ),
+      bottomNavigationBar: BottomNavBarView(),
       body: Column(
         children: [
           SizedBox(
@@ -124,12 +114,8 @@ class _HomeViewState extends State<HomeView> {
                                         MediaQuery.of(context).size.width * 1,
                                     height: MediaQuery.of(context).size.height *
                                         0.025,
-                                    child: Obx(
-                                      () {
-                                        var nama = loginSp.Nama.value;
-                                        return Text(nama);
-                                      },
-                                    ),
+                                    child: Text(
+                                        "${loginSp.data.isNotEmpty ? loginSp.data[0]['nama'] : Ss.data[0]['nama']}"),
                                   ),
                                 ],
                               ),
@@ -166,7 +152,8 @@ class _HomeViewState extends State<HomeView> {
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.025,
-                                      child: Text('Rp. 12.000.000'))
+                                      child: Text(
+                                          'Rp.${loginSp.data.isNotEmpty ? loginSp.data[0]['saldo'] : Ss.data[0]['saldo']}'))
                                 ],
                               ),
                             ),
@@ -338,7 +325,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: MediaQuery.of(context).size.height * 0.03,
           ),
           Container(
             width: double.infinity,
@@ -350,26 +337,32 @@ class _HomeViewState extends State<HomeView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Butuh Bantuan ?',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text(
-                        '0878-1234-1024',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 40),
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Butuh Bantuan ?',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.03),
+                        ),
+                        Text(
+                          '0878-1234-1024',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.06),
+                        )
+                      ],
+                    ),
                   ),
                   Icon(
                     Icons.call,
                     color: Colors.indigo[900],
-                    size: 40,
+                    size: MediaQuery.of(context).size.width * 0.1,
                   )
                 ],
               ),

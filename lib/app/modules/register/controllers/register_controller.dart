@@ -32,7 +32,7 @@ class RegisterController extends GetxController {
       if (response.statusCode == 200) {
         Get.snackbar("Sukses Buat Akun", "Silahkkan Login",
             colorText: Colors.white, backgroundColor: Colors.amber);
-        Get.offAllNamed('/login');
+        Get.to(LoginView());
       } else {
         Get.snackbar("Register Failed", "Email or Password is wrong");
       }
@@ -56,16 +56,20 @@ class RegisterController extends GetxController {
 
   @override
   void onClose() {
-    username.clear();
-    password.clear();
     super.onClose();
+    email.clear();
+    password.clear();
+    name.clear();
+    nim.clear();
   }
 
   @override
   void dispose() {
-    username.dispose();
-    password.dispose();
     super.dispose();
+    email.dispose();
+    password.dispose();
+    name.dispose();
+    nim.dispose();
   }
 
   void increment() => count.value++;

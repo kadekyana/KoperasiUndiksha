@@ -15,6 +15,12 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final RegisterController controller = Get.put(RegisterController());
   final _formkey = GlobalKey<FormState>();
+  final RxBool sembunyikan = false.obs;
+
+  void buttonSembunyikan() {
+    sembunyikan.toggle();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +28,10 @@ class _RegisterViewState extends State<RegisterView> {
         backgroundColor: Colors.indigo[900],
         title: Text('Koperasi Undiksha'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.08,
         color: Colors.grey,
         child: Center(
             child: Text(
@@ -51,7 +58,7 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.8,
+                height: MediaQuery.of(context).size.height * 0.7,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -65,19 +72,22 @@ class _RegisterViewState extends State<RegisterView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10, left: 10),
-                            child: Text(
-                              'Email',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 5, horizontal: 10),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10, left: 10),
+                        //     child: Text(
+                        //       'Email',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: TextFormField(
@@ -89,51 +99,66 @@ class _RegisterViewState extends State<RegisterView> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
+                                label: Text('Masukkan Username/Email'),
+                                border: OutlineInputBorder(),
+                                suffixIcon: Icon(Icons.person)),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10, left: 10),
-                            child: Text(
-                              'Password',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 5, horizontal: 10),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10, left: 10),
+                        //     child: Text(
+                        //       'Password',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: TextFormField(
-                            controller: controller.password,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Password Tidak Boleh Kosong";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
+                          child: Obx(
+                            () => TextFormField(
+                              controller: controller.password,
+                              obscureText: !sembunyikan.value,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Password Tidak Boleh Kosong";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  label: Text('Masukkan Password'),
+                                  border: OutlineInputBorder(),
+                                  suffixIcon: IconButton(
+                                      onPressed: buttonSembunyikan,
+                                      icon: sembunyikan.value
+                                          ? Icon(Icons.visibility)
+                                          : Icon(Icons.visibility_off))),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10, left: 10),
-                            child: Text(
-                              'Nama',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 5, horizontal: 10),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10, left: 10),
+                        //     child: Text(
+                        //       'Nama',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: TextFormField(
@@ -145,21 +170,25 @@ class _RegisterViewState extends State<RegisterView> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
+                                label: Text('Masukkan Nama'),
+                                border: OutlineInputBorder(),
+                                suffixIcon: Icon(Icons.verified_user)),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 20),
-                          child: Container(
-                            width: 100,
-                            height: 30,
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'NIM',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 10, left: 20),
+                        //   child: Container(
+                        //     width: 100,
+                        //     height: 30,
+                        //     padding: EdgeInsets.only(top: 10),
+                        //     child: Text(
+                        //       'NIM',
+                        //       style: TextStyle(fontWeight: FontWeight.bold),
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -172,12 +201,13 @@ class _RegisterViewState extends State<RegisterView> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
+                                label: Text('Masukkan NIM'),
+                                border: OutlineInputBorder(),
+                                suffixIcon: Icon(Icons.numbers_outlined)),
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -192,13 +222,6 @@ class _RegisterViewState extends State<RegisterView> {
                                       controller.name.text,
                                       controller.nim.text);
                                 }
-                                // register(
-                                //   email.text,
-                                //   password.text,
-                                //   nama.text,
-                                // );
-                                // register(email.text, password.text, nama.text,
-                                //     nim.text);
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(
@@ -216,22 +239,24 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginView(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Sudah Punya Akun ? Login !',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.018),
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LoginView(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Sudah Punya Akun ? Login',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.018),
+                                  ),
                                 ),
                               ),
                             ],
