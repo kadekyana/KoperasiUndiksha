@@ -54,6 +54,9 @@ class _LoginViewState extends State<LoginView> {
         child: (orientasi)
             ? Column(
                 children: [
+                  SizedBox(
+                    height: BodyMQH * 0.1,
+                  ),
                   Center(
                     child: Container(
                       width: BodyMQW * 0.5,
@@ -64,11 +67,11 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   SizedBox(
-                    height: BodyMQH * 0.01,
+                    height: BodyMQH * 0.1,
                   ),
                   Container(
                     width: BodyMQW * 0.8,
-                    height: BodyMQH * 1,
+                    height: BodyMQH * 1.05,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -85,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
-                                height: BodyMQH * 0.05,
+                                height: BodyMQH * 0.1,
                               ),
                               // Padding(
                               //   padding: const EdgeInsets.symmetric(
@@ -269,7 +272,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   Container(
                     width: BodyMQW * 1.2,
-                    height: BodyMQH * 0.55,
+                    height: BodyMQH * 0.63,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -278,99 +281,100 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     child: Card(
                       elevation: 10,
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formkey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: BodyMQH * 0.05,
+                      child: Form(
+                        key: _formkey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: BodyMQH * 0.05,
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       vertical: 5, horizontal: 10),
+                            //   child: Container(
+                            //     width: 100,
+                            //     height: 30,
+                            //     padding: EdgeInsets.only(top: 10, left: 10),
+                            //     child: Text(
+                            //       'Username',
+                            //       style: TextStyle(fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ),
+                            // ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: TextFormField(
+                                controller: _loginController.username,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Username tidak boleh kosong';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                  label: Text('Masukkan Username'),
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(
-                              //       vertical: 5, horizontal: 10),
-                              //   child: Container(
-                              //     width: 100,
-                              //     height: 30,
-                              //     padding: EdgeInsets.only(top: 10, left: 10),
-                              //     child: Text(
-                              //       'Username',
-                              //       style: TextStyle(fontWeight: FontWeight.bold),
-                              //     ),
-                              //   ),
-                              // ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: TextFormField(
-                                  controller: _loginController.username,
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 10, left: 20),
+                            //   child: Container(
+                            //     width: 100,
+                            //     height: 30,
+                            //     padding: EdgeInsets.only(top: 10),
+                            //     child: Text(
+                            //       'Password',
+                            //       style: TextStyle(fontWeight: FontWeight.bold),
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(
+                              height: BodyMQH * 0.05,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Obx(
+                                () => TextFormField(
+                                  controller: _loginController.password,
+                                  obscureText: !sembunyikan.value,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Username tidak boleh kosong';
+                                      return "Password Tidak Boleh Kosong";
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.person,
-                                      color: Colors.black,
-                                    ),
-                                    label: Text('Masukkan Username'),
+                                    label: Text('Masukkan Password'),
+                                    suffixIcon: IconButton(
+                                        onPressed: buttonSembunyikan,
+                                        icon: sembunyikan.value
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.black,
+                                              )),
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(top: 10, left: 20),
-                              //   child: Container(
-                              //     width: 100,
-                              //     height: 30,
-                              //     padding: EdgeInsets.only(top: 10),
-                              //     child: Text(
-                              //       'Password',
-                              //       style: TextStyle(fontWeight: FontWeight.bold),
-                              //     ),
-                              //   ),
-                              // ),
-                              SizedBox(
-                                height: BodyMQH * 0.05,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: Obx(
-                                  () => TextFormField(
-                                    controller: _loginController.password,
-                                    obscureText: !sembunyikan.value,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Password Tidak Boleh Kosong";
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      label: Text('Masukkan Password'),
-                                      suffixIcon: IconButton(
-                                          onPressed: buttonSembunyikan,
-                                          icon: sembunyikan.value
-                                              ? Icon(
-                                                  Icons.visibility,
-                                                  color: Colors.black,
-                                                )
-                                              : Icon(
-                                                  Icons.visibility_off,
-                                                  color: Colors.black,
-                                                )),
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: BodyMQH * 0.04,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
+                            ),
+                            SizedBox(
+                              height: BodyMQH * 0.04,
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10),
                                 child: Center(
                                   child: FilledButton(
                                     onPressed: () {
@@ -400,51 +404,51 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterView(),
-                                            ),
-                                          );
-                                        },
-                                        child: FittedBox(
-                                          child: Text(
-                                            'Daftar Mbanking',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegisterView(),
+                                          ),
+                                        );
+                                      },
+                                      child: FittedBox(
+                                        child: Text(
+                                          'Daftar Mbanking',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: FittedBox(
-                                          child: Text(
-                                            'Lupa Password ?',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                  ),
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: FittedBox(
+                                        child: Text(
+                                          'Lupa Password ?',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
