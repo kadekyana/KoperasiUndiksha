@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:pemmob_lanjut/app/model/usermodel.dart';
+import 'package:pemmob_lanjut/app/modules/bottom_nav_bar/views/bottom_nav_bar_view.dart';
 import 'package:pemmob_lanjut/app/modules/home/views/home_view.dart';
 import 'package:pemmob_lanjut/app/modules/login/views/login_view.dart';
-import 'package:pemmob_lanjut/layouting/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
+
   late TextEditingController username = TextEditingController();
   late TextEditingController password = TextEditingController();
   final dio = Dio();
   final String baseUrl = "http://apikoperasi.rey1024.com";
   List data = [];
+
   void getData() async {
     final response = await dio.get(baseUrl + '/users');
     print(response);
@@ -31,6 +32,7 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         print(response.data);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('User_id', response.data[0]['user_id']);
         prefs.setString('Email', response.data[0]['username']);
         prefs.setString('Nama', response.data[0]['nama']);
         prefs.setString('Saldo', response.data[0]['saldo']);
@@ -38,6 +40,7 @@ class LoginController extends GetxController {
         prefs.setBool('Login', true);
         data = [
           {
+            'user_id': prefs.getString('User_id'),
             'nama': prefs.getString('Nama'),
             'email': prefs.getString('Email'),
             'saldo': prefs.getString('Saldo'),
@@ -45,8 +48,8 @@ class LoginController extends GetxController {
             'Userlogin': prefs.getBool('Login')
           }
         ];
-        print(data[0]['nama']);
-        Get.to(HomeView());
+        print(data[0]['user_id']);
+        Get.to(BottomNavBarView());
         Get.snackbar("Success Login", "Selamat Mencoba",
             backgroundColor: Colors.indigo[900],
             borderColor: Colors.black,
@@ -69,7 +72,11 @@ class LoginController extends GetxController {
     username.clear();
     password.clear();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.clear();
+    preferences.remove('Login');
+    preferences.remove('Nama');
+    preferences.remove('Email');
+    preferences.remove('Saldo');
+    preferences.remove('No_Rekening');
     Get.to(LoginView());
   }
 

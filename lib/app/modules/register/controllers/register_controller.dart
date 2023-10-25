@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:pemmob_lanjut/app/modules/login/views/login_view.dart';
-import 'package:pemmob_lanjut/layouting/hariPertama.dart';
 
 class RegisterController extends GetxController {
   //TODO: Implement RegisterController

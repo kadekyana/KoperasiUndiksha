@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class FActionButtonController extends GetxController {
-  //TODO: Implement FActionButtonController
+class CustomOvalButtonController extends GetxController {
+  //TODO: Implement CustomOvalButtonController
 
   final count = 0.obs;
   @override

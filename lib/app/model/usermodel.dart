@@ -2,8 +2,6 @@
 //
 //     final User = UserFromJson(jsonString);
 
-import 'dart:convert';
-
 class User {
   String userId;
   String username;

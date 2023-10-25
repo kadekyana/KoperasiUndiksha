@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "465397743924",
+    "project_id": "koperasi-9517c",
+    "storage_bucket": "koperasi-9517c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465397743924:android:313451cdd3af9bb4066561",
+        "android_client_info": {
+          "package_name": "com.example.pemmob_lanjut"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVTmNLdtYo7tmJhn55KLp1iyMsokRX1Og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
